@@ -4,21 +4,42 @@ def jogar():
     print("Bem vindo ao jogo de Forca!")
     print("*********************************")
 
-    palavraa_secreta = "banana"
+
+    arquivo = open("palavras.txt","r")
+    for linha in arquivo:
+        print(linha.strip())
+    palavraa_secreta = "maça".upper()
+
+    letras_acertadas = ["_" for letra in palavraa_secreta]
+
     enforcou = False
     acertou = False
+    erros = 0
+
+    print(letras_acertadas)
 
     while(not enforcou and not acertou):
 
         chute = input("Qual letra?")
-        chute = chute.strip()
-        index = 1
+        chute = chute.strip().upper()
 
-        for letra in palavraa_secreta:
-            if(chute.upper() == letra.upper()):
-                print("Encontrei a letra na {} na posição {}".format(letra,index))
-            index = index+1
-        print("Jogando...")
+        if(chute in palavraa_secreta):
+            index = 0
+            for letra in palavraa_secreta:
+                if (chute.upper() == letra.upper()):
+                    letras_acertadas[index] = letra
+                index += 1
+        else:
+            erros += 1
+
+        enforcou = erros == 6
+        acertou = "_" not in letras_acertadas
+        print(letras_acertadas)
+
+    if(acertou):
+        print("PARABENS VOCÊ GABHOU!!!")
+    else:
+        print("POXA, VOCÊ PERDEU!!!")
 
     print("Fim do jogo")
 
